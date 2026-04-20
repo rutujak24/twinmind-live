@@ -14,7 +14,7 @@ An AI meeting copilot that listens to live audio, transcribes in real-time, and 
 
 - **Frontend**: Vanilla JS + Vite (no framework overhead)
 - **Transcription**: Groq Whisper Large V3
-- **LLM**: Groq `meta-llama/llama-4-scout-17b-16e-instruct`
+- **LLM**: Groq `openai/gpt-oss-120b` (GPT-OSS 120B)
 - **Hosting**: Vercel
 
 ## Setup

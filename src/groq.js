@@ -31,7 +31,7 @@ export async function chatCompletion(systemPrompt, userContent, { stream = false
   if (!apiKey) throw new Error('No API key set. Open Settings to add your Groq API key.');
 
   const body = {
-    model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    model: 'openai/gpt-oss-120b',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userContent },
@@ -59,4 +59,37 @@ export async function chatCompletion(systemPrompt, userContent, { stream = false
 
   const data = await res.json();
   return data.choices[0].message.content;
+}
+
+export async function streamChatCompletion(systemPrompt, userContent, onChunk) {
+  const body = await chatCompletion(systemPrompt, userContent, { stream: true });
+  const reader = body.getReader();
+  const decoder = new TextDecoder();
+  let full = '';
+  let buffer = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+
+    const lines = buffer.split('\n');
+    buffer = lines.pop() || '';
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || !trimmed.startsWith('data: ')) continue;
+      const data = trimmed.slice(6);
+      if (data === '[DONE]') break;
+      try {
+        const parsed = JSON.parse(data);
+        const content = parsed.choices?.[0]?.delta?.content;
+        if (content) {
+          full += content;
+          onChunk(full);
+        }
+      } catch { /* skip */ }
+    }
+  }
+  return full;
 }

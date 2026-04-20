@@ -1,5 +1,5 @@
 import { Recorder } from './recorder.js';
-import { chatCompletion } from './groq.js';
+import { chatCompletion, streamChatCompletion } from './groq.js';
 import { loadSettings, saveSettings, getApiKey, saveApiKey, DEFAULTS } from './settings.js';
 
 // ── State ──
@@ -117,17 +117,21 @@ async function onSuggestionClick(batchIdx, idx) {
   // Add suggestion to chat as user message
   const userMsg = `📌 ${suggestion.type}: ${suggestion.preview}`;
   chatHistory.push({ role: 'user', content: userMsg, timestamp: ts() });
+  const assistantMsg = { role: 'assistant', content: '', timestamp: ts() };
+  chatHistory.push(assistantMsg);
   renderChat();
 
   try {
-    const answer = await chatCompletion(
+    await streamChatCompletion(
       'You are a helpful meeting copilot providing detailed answers.',
-      prompt
+      prompt,
+      (partial) => {
+        assistantMsg.content = partial;
+        renderChat();
+      }
     );
-    chatHistory.push({ role: 'assistant', content: answer, timestamp: ts() });
-    renderChat();
   } catch (err) {
-    chatHistory.push({ role: 'assistant', content: `Error: ${err.message}`, timestamp: ts() });
+    assistantMsg.content = `Error: ${err.message}`;
     renderChat();
   }
 }
@@ -152,6 +156,8 @@ async function sendChatMessage() {
   $chatInput.value = '';
 
   chatHistory.push({ role: 'user', content: question, timestamp: ts() });
+  const assistantMsg = { role: 'assistant', content: '', timestamp: ts() };
+  chatHistory.push(assistantMsg);
   renderChat();
 
   const fullText = getFullTranscript().slice(-settings.detailContextChars);
@@ -166,14 +172,16 @@ async function sendChatMessage() {
     .replace('{question}', question);
 
   try {
-    const answer = await chatCompletion(
+    await streamChatCompletion(
       'You are a helpful meeting copilot assistant.',
-      prompt
+      prompt,
+      (partial) => {
+        assistantMsg.content = partial;
+        renderChat();
+      }
     );
-    chatHistory.push({ role: 'assistant', content: answer, timestamp: ts() });
-    renderChat();
   } catch (err) {
-    chatHistory.push({ role: 'assistant', content: `Error: ${err.message}`, timestamp: ts() });
+    assistantMsg.content = `Error: ${err.message}`;
     renderChat();
   }
 }
