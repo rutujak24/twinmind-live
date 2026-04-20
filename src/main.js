@@ -65,6 +65,12 @@ async function fetchSuggestions() {
   const recentText = getRecentTranscript(settings.suggestionContextChars);
   if (!recentText.trim()) return;
 
+  // Show loading
+  const loadingEl = document.createElement('div');
+  loadingEl.className = 'suggestion-batch';
+  loadingEl.innerHTML = '<div class="batch-time">Generating suggestions... <span class="loading"></span></div>';
+  $suggestions.prepend(loadingEl);
+
   const prompt = settings.suggestionPrompt.replace('{transcript}', recentText);
 
   try {
@@ -72,6 +78,8 @@ async function fetchSuggestions() {
       'You are a helpful meeting copilot. Respond only with valid JSON.',
       prompt
     );
+
+    loadingEl.remove();
 
     // Parse JSON from response
     const jsonMatch = raw.match(/\[[\s\S]*\]/);
@@ -83,6 +91,7 @@ async function fetchSuggestions() {
       renderSuggestions();
     }
   } catch (err) {
+    loadingEl.remove();
     console.error('Suggestion fetch error:', err);
   }
 }
