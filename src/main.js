@@ -152,11 +152,7 @@ async function onSuggestionClick(batchIdx, idx) {
 function renderChat() {
     $chatMessages.innerHTML = chatHistory
         .map(
-            (m) =>
-                `<div class="chat-msg ${m.role}">
-          <div class="chat-content">${m.role === 'assistant' ? marked.parse(m.content) : escapeHtml(m.content)}</div>
-          <div class="chat-timestamp">${escapeHtml(m.timestamp)}</div>
-        </div>`
+            (m) => `<div class="chat-msg ${m.role}"><div class="chat-content">${m.role === 'assistant' ? marked.parse(m.content) : escapeHtml(m.content)}</div><div class="chat-timestamp">${escapeHtml(m.timestamp)}</div></div>`
         )
         .join('');
     $chatMessages.scrollTop = $chatMessages.scrollHeight;
