@@ -40,9 +40,3 @@ When a suggestion is clicked, a separate prompt with larger context window (8000
 
 ### Chat
 Free-form chat includes full transcript + recent chat history for continuity.
-
-## Tradeoffs
-
-- **Client-side API calls**: No backend server — API key stays in browser localStorage. Simpler deployment, acceptable for a demo. Production would use a backend proxy.
-- **30s chunk interval**: Balances transcription quality (longer = better context for Whisper) vs responsiveness. Configurable.
-- **Vanilla JS**: No React/Vue overhead. The app is simple enough that a framework adds complexity without benefit.

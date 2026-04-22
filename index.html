@@ -1,81 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TwinMind Live Suggestions</title>
-  <link rel="stylesheet" href="/src/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TwinMind Live Suggestions</title>
+    <link rel="stylesheet" href="/src/styles.css" />
 </head>
+
 <body>
-  <header class="header">
-    <h1>TwinMind</h1>
-    <div class="header-actions">
-      <button id="btn-settings" title="Settings">⚙️</button>
-      <button id="btn-export" title="Export session">📥 Export</button>
+    <header class="header">
+        <h1>TwinMind</h1>
+        <div class="header-actions">
+            <button id="btn-settings" title="Settings">⚙️</button>
+            <button id="btn-export" title="Export session">📥 Export</button>
+        </div>
+    </header>
+
+    <main class="columns">
+        <!-- Left: Transcript -->
+        <section class="col col-transcript">
+            <h2>Transcript</h2>
+            <div class="mic-controls">
+                <button id="btn-mic" class="mic-btn">🎙️ Start</button>
+            </div>
+            <div id="transcript" class="transcript-area"></div>
+        </section>
+
+        <!-- Middle: Live Suggestions -->
+        <section class="col col-suggestions">
+            <div class="suggestions-header">
+                <h2>Live Suggestions</h2>
+                <button id="btn-refresh" title="Refresh suggestions">🔄</button>
+            </div>
+            <div id="suggestions" class="suggestions-area"></div>
+        </section>
+
+        <!-- Right: Chat -->
+        <section class="col col-chat">
+            <h2>Chat</h2>
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input-row">
+                <input id="chat-input" type="text" placeholder="Ask a question..." />
+                <button id="btn-send">Send</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="btn-close-settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>Groq API Key
+                    <input id="setting-api-key" type="password" placeholder="gsk_..." />
+                </label>
+                <label>Suggestion Prompt
+                    <textarea id="setting-suggestion-prompt" rows="6"></textarea>
+                </label>
+                <label>Detail Answer Prompt
+                    <textarea id="setting-detail-prompt" rows="6"></textarea>
+                </label>
+                <label>Chat Prompt
+                    <textarea id="setting-chat-prompt" rows="6"></textarea>
+                </label>
+                <label>Context window for suggestions (chars)
+                    <input id="setting-suggestion-context" type="number" value="4000" />
+                </label>
+                <label>Context window for detail answers (chars)
+                    <input id="setting-detail-context" type="number" value="8000" />
+                </label>
+                <button id="btn-save-settings" class="primary-btn">Save</button>
+            </div>
+        </div>
     </div>
-  </header>
 
-  <main class="columns">
-    <!-- Left: Transcript -->
-    <section class="col col-transcript">
-      <h2>Transcript</h2>
-      <div class="mic-controls">
-        <button id="btn-mic" class="mic-btn">🎙️ Start</button>
-      </div>
-      <div id="transcript" class="transcript-area"></div>
-    </section>
-
-    <!-- Middle: Live Suggestions -->
-    <section class="col col-suggestions">
-      <div class="suggestions-header">
-        <h2>Live Suggestions</h2>
-        <button id="btn-refresh" title="Refresh suggestions">🔄</button>
-      </div>
-      <div id="suggestions" class="suggestions-area"></div>
-    </section>
-
-    <!-- Right: Chat -->
-    <section class="col col-chat">
-      <h2>Chat</h2>
-      <div id="chat-messages" class="chat-messages"></div>
-      <div class="chat-input-row">
-        <input id="chat-input" type="text" placeholder="Ask a question..." />
-        <button id="btn-send">Send</button>
-      </div>
-    </section>
-  </main>
-
-  <!-- Settings Modal -->
-  <div id="settings-modal" class="modal hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Settings</h2>
-        <button id="btn-close-settings">&times;</button>
-      </div>
-      <div class="modal-body">
-        <label>Groq API Key
-          <input id="setting-api-key" type="password" placeholder="gsk_..." />
-        </label>
-        <label>Suggestion Prompt
-          <textarea id="setting-suggestion-prompt" rows="6"></textarea>
-        </label>
-        <label>Detail Answer Prompt
-          <textarea id="setting-detail-prompt" rows="6"></textarea>
-        </label>
-        <label>Chat Prompt
-          <textarea id="setting-chat-prompt" rows="6"></textarea>
-        </label>
-        <label>Context window for suggestions (chars)
-          <input id="setting-suggestion-context" type="number" value="4000" />
-        </label>
-        <label>Context window for detail answers (chars)
-          <input id="setting-detail-context" type="number" value="8000" />
-        </label>
-        <button id="btn-save-settings" class="primary-btn">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/main.js"></script>
 </body>
+
 </html>
