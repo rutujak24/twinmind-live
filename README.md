@@ -1,7 +1,7 @@
 # TwinMind Live Suggestions
 
 **Live Demo:** https://twinmind-rutuja.netlify.app/
-use groq API key in the setting:
+**use groq API key in the setting:**
 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
 https://console.groq.com/keys
 
