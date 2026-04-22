@@ -225,8 +225,8 @@ body {
 }
 
 .chat-msg {
-    max-width: 90%;
-    padding: 8px 12px;
+    max-width: 85%;
+    padding: 6px 10px;
     border-radius: 10px;
     font-size: 0.85rem;
     line-height: 1.5;
@@ -237,10 +237,19 @@ body {
     background: #7c8aff;
     color: #fff;
     white-space: pre-wrap;
+    padding: 8px 12px;
 }
 
 .chat-msg .chat-content {
     overflow-wrap: break-word;
+}
+
+.chat-msg .chat-content>*:first-child {
+    margin-top: 0;
+}
+
+.chat-msg .chat-content>*:last-child {
+    margin-bottom: 0;
 }
 
 .chat-msg .chat-content h1,
@@ -252,8 +261,13 @@ body {
     color: #c9cdd5;
 }
 
-.chat-msg .chat-content h2 { font-size: 1rem; }
-.chat-msg .chat-content h3 { font-size: 0.92rem; }
+.chat-msg .chat-content h2 {
+    font-size: 1rem;
+}
+
+.chat-msg .chat-content h3 {
+    font-size: 0.92rem;
+}
 
 .chat-msg .chat-content p {
     margin: 4px 0;
@@ -320,7 +334,7 @@ body {
 .chat-msg .chat-timestamp {
     font-size: 0.65rem;
     color: rgba(255, 255, 255, 0.5);
-    margin-top: 4px;
+    margin-top: 2px;
 }
 
 .chat-input-row {
